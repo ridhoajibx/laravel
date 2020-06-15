@@ -4,9 +4,11 @@
 
 @section('content')
     <div class="container">
+        <h4>All posts</h4>
+        <hr>
         <div class="row">
             @foreach ($posts as $post )
-                <div class="col-md-6 mb-4">
+                <div class="col-md-4 mb-4">
                     <div class="card">
                         <div class="card-header"> 
                             {{ $post->title }} 
