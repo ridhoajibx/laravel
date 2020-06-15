@@ -18,5 +18,8 @@
       <li class="nav-item{{ request()->is('login') ? ' active' : '' }}">
         <a class="nav-link" href="/login">Login</a>
       </li>
+      <li class="nav-item{{ request()->is('posts') ? ' active' : '' }}">
+        <a class="nav-link" href="/posts">Posts</a>
+      </li>
   </div>
 </nav>
