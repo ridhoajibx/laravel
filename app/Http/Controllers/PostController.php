@@ -26,13 +26,20 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        $post = new Post;
-        $post->title = $request->title;
-        $post->slug = \Str::slug($request->title);
-        $post->body = $request->body;
-        $post->save();
-
-        return back();
+        // cara pertama
+        // $post = new Post;
+        // $post->title = $request->title;
+        // $post->slug = \Str::slug($request->title);
+        // $post->body = $request->body;
+        // $post->save();
         // return redirect()->to('posts'); redirect function
+
+        // cara kedua (lebih efisien)
+        Post::create([
+            'title' => $request->title,
+            'slug' => \Str::slug($request->title),
+            'body' => $request->body,
+        ]);
+        return back();
     }
 }
