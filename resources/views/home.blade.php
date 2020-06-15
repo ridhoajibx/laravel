@@ -4,6 +4,6 @@
 
 @section('content')
     <div class="container">
-        Home
+        Hallo! my name is {{ $name }}
     </div>
 @endsection
