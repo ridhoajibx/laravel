@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => 'All post'])
+@extends('layouts.app', ['title' => $category->name ?? 'All posts'])
 
 @section('content')
     <div class="container">
