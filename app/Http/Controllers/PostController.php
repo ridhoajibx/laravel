@@ -68,10 +68,29 @@ class PostController extends Controller
             'body' => 'required|min:6'
         ]);
         
-        $attr['slug'] = \Str::slug(request('title'));
+        $attr['slug'] = \Str::slug(request('title') . "-" . \Str::random(6));
         Post::create($attr);
 
         session()->flash('success', 'The post was created');
+
+        return redirect('posts');
+    }
+
+    public function edit(Post $post)
+    {
+        return view('posts.edit', compact('post'));    
+    }
+
+    public function update(Post $post)
+    {
+        $attr = request()->validate([
+            'title' => 'required|min:3',
+            'body' => 'required|min:6'
+        ]);
+
+        $post->update($attr);
+
+        session()->flash('success', 'The post was updated');
 
         return redirect('posts');
     }

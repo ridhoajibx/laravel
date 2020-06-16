@@ -27,9 +27,14 @@
                             <a href="/posts/{{ $post->slug }}">Read more</a>
                         </div>
 
-                        <div class="card-footer">
-                            Published on: {{ $post->created_at->diffForHumans() }}
-                            {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
+                        <div class="card-footer d-flex justify-content-between">
+                            <div>
+                                Published on: {{ $post->created_at->diffForHumans() }}
+                                {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
+                            </div>
+                            <div>
+                                <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
+                            </div>
                         </div>
                     </div>
                 </div>
