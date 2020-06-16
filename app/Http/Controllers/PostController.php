@@ -53,12 +53,22 @@ class PostController extends Controller
         // return back();
 
         //cara ke empat
-        $attr = $request->validate([
+        // $attr = $request->validate([
+        //     'title' => 'required|min:3',
+        //     'body' => 'required|min:6'
+        // ]);
+        
+        // $attr['slug'] = \Str::slug($request->title);
+        // Post::create($attr);
+        // return back();
+
+        //cara kelima
+        $attr = request()->validate([
             'title' => 'required|min:3',
             'body' => 'required|min:6'
         ]);
         
-        $attr['slug'] = \Str::slug($request->title);
+        $attr['slug'] = \Str::slug(request('title'));
         Post::create($attr);
         return back();
     }
