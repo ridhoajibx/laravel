@@ -3,6 +3,10 @@
 @section('content')
     <div class="container">
         <h3>{{ $post->title }}</h3>
+        <div class="text-secondary">
+            <small>{{ $post->category->name }} &middot; {{ $post->created_at->format('d F, Y') }}</small>
+        </div>
+        <hr>
         <p>{!! $post->body !!}</p>
         
         <!-- Button trigger modal -->

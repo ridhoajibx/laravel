@@ -27,10 +27,10 @@
                             <a href="/posts/{{ $post->slug }}">Read more</a>
                         </div>
 
-                        <div class="card-footer d-flex justify-content-between">
+                        <div class="card-footer d-flex justify-content-between align-items-center">
                             <div class="font-weight-light">
                                 <small>
-                                    Published on: {{ $post->created_at->diffForHumans() }}
+                                    Published on: {{ $post->created_at->format('d F, Y') }}
                                     {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
                                 </small>
                             </div>
