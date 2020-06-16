@@ -34,12 +34,22 @@ class PostController extends Controller
         // $post->save();
         // return redirect()->to('posts'); redirect function
 
-        // cara kedua (lebih efisien)
-        Post::create([
-            'title' => $request->title,
-            'slug' => \Str::slug($request->title),
-            'body' => $request->body,
+        // cara kedua
+        // Post::create([
+        //     'title' => $request->title,
+        //     'slug' => \Str::slug($request->title),
+        //     'body' => $request->body,
+        // ]);
+
+        $request->validate([
+            'title' => 'required|min:3',
+            'body' => 'required|min:6'
         ]);
+        
+        //Cara ketiga
+        $post = $request->all();
+        $post['slug'] = \Str::slug($request->title);
+        Post::create($post);
         return back();
     }
 }
