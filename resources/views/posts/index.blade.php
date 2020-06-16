@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $category->name ?? 'All posts'])
+@extends('layouts.app', ['title' => $category->name ?? $tag->name ?? 'All posts'])
 
 @section('content')
     <div class="container">
@@ -6,9 +6,15 @@
             <div>
                 @isset($category)
                     <h4>Category : {{ $category->name }}</h4>
-                @else
-                    <h4>All posts</h4>
                 @endisset
+
+                @isset($tag)
+                    <h4>Tag : {{ $tag->name }}</h4>
+                @endisset
+
+                @if (!isset($category) && !isset($tag))
+                    <h4>All posts</h4>
+                @endif
                 <hr>
             </div>
             <div>
