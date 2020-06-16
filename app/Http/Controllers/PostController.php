@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,7 @@ class PostController extends Controller
         return view('posts.create');    
     }
 
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
         // cara pertama
         // $post = new Post;
@@ -63,7 +64,7 @@ class PostController extends Controller
         // return back();
 
         //cara kelima
-        $attr = $this->validateRequest();
+        $attr = $request->all();
         
         $attr['slug'] = \Str::slug(request('title') . "-" . \Str::random(6));
         Post::create($attr);
@@ -78,22 +79,14 @@ class PostController extends Controller
         return view('posts.edit', compact('post'));    
     }
 
-    public function update(Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        $attr = $this->validateRequest();
+        $attr = $request->all();
 
         $post->update($attr);
 
         session()->flash('success', 'The post was update');
 
         return redirect('posts');
-    }
-    
-    public function validateRequest()
-    {
-        return request()->validate([
-            'title' => 'required|min:3',
-            'body' => 'required|min:6'
-        ]);
     }
 }
