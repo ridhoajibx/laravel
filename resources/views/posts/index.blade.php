@@ -28,9 +28,11 @@
                         </div>
 
                         <div class="card-footer d-flex justify-content-between">
-                            <div>
-                                Published on: {{ $post->created_at->diffForHumans() }}
-                                {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
+                            <div class="font-weight-light">
+                                <small>
+                                    Published on: {{ $post->created_at->diffForHumans() }}
+                                    {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
+                                </small>
                             </div>
                             <div>
                                 <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>

@@ -89,4 +89,13 @@ class PostController extends Controller
 
         return redirect('posts');
     }
+
+    public function destroy(Post $post)
+    {
+        $post->delete();
+
+        session()->flash('success', 'The post was deleted');
+
+        return redirect('posts');
+    }
 }
