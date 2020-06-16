@@ -9,25 +9,7 @@
                     <div class="card-body">
                         <form action="/posts/store" method="post">
                             @csrf
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" name="title" id="title" class="form-control">
-                                @error('title')
-                                    <small class="text-danger mt-2">
-                                        {{$message}}
-                                    </small>    
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label for="body">Body</label>
-                                <textarea class="form-control" name="body" id="body" rows="5" placeholder="Create your post here!"></textarea>
-                                @error('body')
-                                    <small class="text-danger mt-2">
-                                        {{$message}}
-                                    </small>    
-                                @enderror
-                            </div>
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            @include('posts.partials.form', ['submit' => 'Create'])
                         </form>
                     </div>
                 </div>
