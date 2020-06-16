@@ -63,10 +63,7 @@ class PostController extends Controller
         // return back();
 
         //cara kelima
-        $attr = request()->validate([
-            'title' => 'required|min:3',
-            'body' => 'required|min:6'
-        ]);
+        $attr = $this->validateRequest();
         
         $attr['slug'] = \Str::slug(request('title') . "-" . \Str::random(6));
         Post::create($attr);
@@ -83,15 +80,20 @@ class PostController extends Controller
 
     public function update(Post $post)
     {
-        $attr = request()->validate([
-            'title' => 'required|min:3',
-            'body' => 'required|min:6'
-        ]);
+        $attr = $this->validateRequest();
 
         $post->update($attr);
 
-        session()->flash('success', 'The post was updated');
+        session()->flash('success', 'The post was update');
 
         return redirect('posts');
+    }
+    
+    public function validateRequest()
+    {
+        return request()->validate([
+            'title' => 'required|min:3',
+            'body' => 'required|min:6'
+        ]);
     }
 }
