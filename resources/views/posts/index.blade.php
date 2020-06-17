@@ -17,9 +17,15 @@
                 @endif
                 <hr>
             </div>
-            <div>
-                <a href="/posts/create" class="btn btn-primary">New post</a>
-            </div>
+            @auth
+                <div>
+                    <a href="{{ route('posts.create') }}" class="btn btn-primary">New post</a>
+                </div>
+            @else
+                <div>
+                    <a href="{{ route('posts.create') }}" class="btn btn-primary">Login to create new post</a>
+                </div>
+            @endauth
         </div>
         <div class="row">
             @forelse ($posts as $post )
@@ -31,7 +37,7 @@
                         
                         <div class="card-body"> 
                             <div>
-                                {{ Str::limit($post->body, 100, '') }} 
+                                {{ Str::limit($post->body, 100) }} 
                             </div>
 
                             <a href="/posts/{{ $post->slug }}">Read more</a>
@@ -44,9 +50,11 @@
                                     {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
                                 </small>
                             </div>
-                            <div>
-                                <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
-                            </div>
+                            @auth
+                                <div>
+                                    <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
+                                </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
