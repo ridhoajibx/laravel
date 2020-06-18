@@ -69,10 +69,23 @@ class PostController extends Controller
         // return back();
 
         //cara kelima
+        $request->validate([
+            'thumbnail' => 'image|mimes:jpeg,jpg,png,svg|max:2048'
+        ]);
+
         $attr = $request->all();
         
-        $attr['slug'] = \Str::slug(request('title') . "-" . \Str::random(6));
+        $slug = \Str::slug(request('title') . "-" . \Str::random(6));
+        $attr['slug'] = $slug;
+
+        if (request()->file('thumbnail')) {
+            $thumbnail = request()->file('thumbnail')->store('image/posts');
+        } else {
+            $thumbnail = null;
+        }
+        
         $attr['category_id'] = request('category');
+        $attr['thumbnail'] = $thumbnail;
 
         $post = auth()->user()->posts()->create($attr);
 
@@ -97,8 +110,22 @@ class PostController extends Controller
     public function update(PostRequest $request, Post $post)
     {
         $this->authorize('update', $post);
+
+        $request->validate([
+            'thumbnail' => 'image|mimes:jpeg,jpg,png,svg|max:2048'
+        ]);
+
         $attr = $request->all();
+
+        if (request()->file('thumbnail')) {
+            \Storage::delete($post->thumbnail);
+            $thumbnail = request()->file('thumbnail')->store('image/posts');
+        } else {
+            $thumbnail = $post->thumbnail;
+        }
+
         $attr['category_id'] = request('category');
+        $attr['thumbnail'] = $thumbnail;
 
         $post->update($attr);
         $post->tags()->sync(request('tags'));
@@ -110,18 +137,14 @@ class PostController extends Controller
 
     public function destroy(Post $post)
     {
-        if (auth()->user()->is($post->author)) {
-            $post->tags()->detach();
+        $this->authorize('delete', $post);
 
-            $post->delete();
+        $post->tags()->detach();
+        \Storage::delete($post->thumbnail); 
+        $post->delete();
 
-            session()->flash('success', "The post was deleted");
+        session()->flash('success', "The post was deleted");
 
-            return redirect('posts');
-        }
-        else {
-            session()->flash('error', "It wasn't not your post");
-            return redirect('posts');
-        }
+        return redirect('posts');
     }
 }

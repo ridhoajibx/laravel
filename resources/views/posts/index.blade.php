@@ -31,11 +31,15 @@
             @forelse ($posts as $post )
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <div class="card-header"> 
-                            {{ $post->title }} 
-                        </div>
-                        
-                        <div class="card-body"> 
+                        @if ($post->thumbnail)
+                            <img style="height: 225px; object-fit:cover; object-position:center;" src="{{ $post->takeImage() }}" class="card-img-top" alt="image-thumbnail">
+                        @else
+                            <img style="height: 225px; object-fit:cover; object-position:center;" src="{{ asset('image-default/no-image.png') }}" class="card-img-top" alt="image-thumbnail">
+                        @endif
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ $post->title }}
+                            </h5>
                             <div>
                                 {{ Str::limit($post->body, 100) }} 
                             </div>

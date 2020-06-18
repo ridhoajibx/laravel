@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Create new post</div>
                     <div class="card-body">
-                        <form action="/posts/store" method="post">
+                        <form action="/posts/store" method="post" enctype="multipart/form-data">
                             @csrf
                             @include('posts.partials.form', ['submit' => 'Create'])
                         </form>
