@@ -21,7 +21,7 @@
         <p>{!! $post->body !!}</p>
         
         <!-- Button trigger modal -->
-        @if (auth()->user()->is($post->author))
+        @can ('update', $post)
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
                 Delete
             </button>
@@ -54,6 +54,6 @@
                     </div>
                 </div>
             </div>
-        @endif
+        @endcan
     </div>
 @endsection

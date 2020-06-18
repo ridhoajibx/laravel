@@ -50,11 +50,11 @@
                                     {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
                                 </small>
                             </div>
-                            @auth
+                            @can('update', $post)
                                 <div>
                                     <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
                                 </div>
-                            @endauth
+                            @endcan
                         </div>
                     </div>
                 </div>

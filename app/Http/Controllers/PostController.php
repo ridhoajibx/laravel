@@ -86,30 +86,26 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
         return view('posts.edit', [
             'post' => $post,
             'categories' => Category::get(),
             'tags' => Tag::get(),
-        ]);    
+        ]); 
     }
 
     public function update(PostRequest $request, Post $post)
     {
-        if (auth()->user()->is($post->author)) {
-            $attr = $request->all();
-            $attr['category_id'] = request('category');
+        $this->authorize('update', $post);
+        $attr = $request->all();
+        $attr['category_id'] = request('category');
 
-            $post->update($attr);
-            $post->tags()->sync(request('tags'));
+        $post->update($attr);
+        $post->tags()->sync(request('tags'));
 
-            session()->flash('success', 'The post was update');
+        session()->flash('success', "The post was update");
 
-            return redirect('posts');
-        } else {
-            session()->flash('error', 'It was not your post');
-
-            return redirect('posts');
-        }
+        return redirect('posts');
     }
 
     public function destroy(Post $post)
@@ -119,12 +115,12 @@ class PostController extends Controller
 
             $post->delete();
 
-            session()->flash('success', 'The post was deleted');
+            session()->flash('success', "The post was deleted");
 
             return redirect('posts');
         }
         else {
-            session()->flash('error', 'It was not your post');
+            session()->flash('error', "It wasn't not your post");
             return redirect('posts');
         }
     }
