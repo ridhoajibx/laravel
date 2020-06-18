@@ -12,12 +12,16 @@
                     <a href="/tags/{{ $tag->slug }}">{{ $tag->name }}</a>
                 @endforeach
             </small>
+            <br>
+            <small>
+                Author : {{ $post->author->name }}
+            </small>
         </div>
         <hr>
         <p>{!! $post->body !!}</p>
         
         <!-- Button trigger modal -->
-        @auth
+        @if (auth()->user()->is($post->author))
             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
                 Delete
             </button>
@@ -32,7 +36,7 @@
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        
+
                         <div class="modal-body">
                             <div>
                                 <p>{{ $post->title }}</p>
@@ -50,6 +54,6 @@
                     </div>
                 </div>
             </div>
-        @endauth
+        @endif
     </div>
 @endsection

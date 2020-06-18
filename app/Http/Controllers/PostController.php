@@ -74,7 +74,7 @@ class PostController extends Controller
         $attr['slug'] = \Str::slug(request('title') . "-" . \Str::random(6));
         $attr['category_id'] = request('category');
 
-        $post = Post::create($attr);
+        $post = auth()->user()->posts()->create($attr);
 
         $post->tags()->attach(request('tags'));
 
@@ -95,25 +95,37 @@ class PostController extends Controller
 
     public function update(PostRequest $request, Post $post)
     {
-        $attr = $request->all();
-        $attr['category_id'] = request('category');
+        if (auth()->user()->is($post->author)) {
+            $attr = $request->all();
+            $attr['category_id'] = request('category');
 
-        $post->update($attr);
-        $post->tags()->sync(request('tags'));
+            $post->update($attr);
+            $post->tags()->sync(request('tags'));
 
-        session()->flash('success', 'The post was update');
+            session()->flash('success', 'The post was update');
 
-        return redirect('posts');
+            return redirect('posts');
+        } else {
+            session()->flash('error', 'It was not your post');
+
+            return redirect('posts');
+        }
     }
 
     public function destroy(Post $post)
     {
-        $post->tags()->detach();
+        if (auth()->user()->is($post->author)) {
+            $post->tags()->detach();
 
-        $post->delete();
+            $post->delete();
 
-        session()->flash('success', 'The post was deleted');
+            session()->flash('success', 'The post was deleted');
 
-        return redirect('posts');
+            return redirect('posts');
+        }
+        else {
+            session()->flash('error', 'It was not your post');
+            return redirect('posts');
+        }
     }
 }
