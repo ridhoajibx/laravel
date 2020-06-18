@@ -1,5 +1,5 @@
 @if(session()->has('success'))
-    <div class="container pt-4">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -14,7 +14,7 @@
 @endif
 
 @if(session()->has('error'))
-    <div class="container pt-4">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">

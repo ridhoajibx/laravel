@@ -50,11 +50,11 @@
                                     {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
                                 </small>
                             </div>
-                            @if (auth()->user()->is($post->author))
+                            @auth
                                 <div>
                                     <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
                                 </div>
-                            @endif
+                            @endauth
                         </div>
                     </div>
                 </div>

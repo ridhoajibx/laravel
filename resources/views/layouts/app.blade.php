@@ -23,9 +23,9 @@
     <div id="app">
         @include('layouts.navigation')
 
-        @include('alert')
-        
         <main class="py-4">            
+            @include('alert')
+
             @yield('content')
         </main>
     </div>
