@@ -17,56 +17,68 @@
                 @endif
                 <hr>
             </div>
-            @auth
-                <div>
-                    <a href="{{ route('posts.create') }}" class="btn btn-primary">New post</a>
-                </div>
-            @else
-                <div>
-                    <a href="{{ route('posts.create') }}" class="btn btn-primary">Login to create new post</a>
-                </div>
-            @endauth
         </div>
-        <div class="row">
-            @forelse ($posts as $post )
-                <div class="col-md-4 mb-4">
-                    <div class="card">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                @forelse ($posts as $post)
+                    <div class="card mb-4">
                         @if ($post->thumbnail)
-                            <img style="height: 225px; object-fit:cover; object-position:center;" src="{{ $post->takeImage() }}" class="card-img-top" alt="image-thumbnail">
+                            <a href="{{ route('posts.show', $post->slug) }}">
+                                <img style="height: 350px; object-fit:cover; object-position:center;" src="{{ $post->takeImage() }}" class="card-img-top" alt="image-thumbnail">
+                            </a>
                         @else
-                            <img style="height: 225px; object-fit:cover; object-position:center;" src="{{ asset('image-default/no-image.png') }}" class="card-img-top" alt="image-thumbnail">
+                            <a href="{{ route('posts.show', $post->slug) }}">
+                                <img style="height: 350px; object-fit:cover; object-position:center;" src="{{ asset('image-default/no-image.png') }}" class="card-img-top" alt="image-thumbnail">
+                            </a>
                         @endif
+
                         <div class="card-body">
-                            <h5 class="card-title">
-                                {{ $post->title }}
-                            </h5>
                             <div>
-                                {{ Str::limit($post->body, 100) }} 
+                                <a href="{{ route('categories.show', $post->category->slug) }}" class="text-secondary">
+                                    <small>{{ $post->category->name }} - </small>
+                                </a>
+
+                                @foreach ($post->tags as $tag)
+                                    <a class="text-secondary" href="{{ route('tags.show', $tag->slug) }}">{{ $tag->name }}</a>
+                                @endforeach
                             </div>
 
-                            <a href="/posts/{{ $post->slug }}">Read more</a>
-                        </div>
+                            <h5>
+                                <a href="{{ route('posts.show', $post->slug) }}" class="text-dark">
+                                    {{ $post->title }}
+                                </a>
+                            </h5>
 
-                        <div class="card-footer d-flex justify-content-between align-items-center">
-                            <div class="font-weight-light">
-                                <small>
-                                    Published on: {{ $post->created_at->format('d F, Y') }}
-                                    {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
-                                </small>
+                            <div class="text-secondary my-2">
+                                {{ Str::limit($post->body, 130) }} 
                             </div>
-                            @can('update', $post)
-                                <div>
-                                    <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
+
+                            <div class="text-secondary d-flex justify-content-between align-items-center mt-2">
+                                <div class="media align-items-center">
+                                    <img width="40" class="rounded-circle align-self-center mr-3" src="{{ $post->author->avatar() }}" class="ml-3" alt="...">
+                                    <div class="media-body">
+                                        <div>
+                                            Author : {{ $post->author->name }}
+                                        </div>
+                                    </div>
                                 </div>
-                            @endcan
+
+                                <div class="font-weight-light">
+                                    <small>
+                                        Published on: {{ $post->created_at->format('d F, Y') }}
+                                        {{-- Published on. {{ $post->created_at->format('d F Y') }}  show full date--}}
+                                    </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <div class="alert alert-info col-md-8" role="alert">
-                    there're no posts!
-                </div>
-            @endforelse
+                @empty
+                    <div class="alert alert-info col-md-8" role="alert">
+                        there're no posts!
+                    </div>
+                @endforelse
+            </div>
         </div>
         <div class="d-flex justify-content-center">
             <div>

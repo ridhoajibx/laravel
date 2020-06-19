@@ -3,28 +3,40 @@
 @section('content')
     <div class="container">
         <h3>{{ $post->title }}</h3>
-        <div class="text-secondary">
+        <div class="text-secondary mb-3">
             <small>
-                <a href="/categories/{{ $post->category->slug }}">{{ $post->category->name }}</a> 
+                <a class="text-secondary" href="{{ route('categories.show', $post->category->slug) }}">{{ $post->category->name }}</a> 
                 &middot; {{ $post->created_at->format('d F, Y') }}
                 &middot;
                 @foreach ($post->tags as $tag)
-                    <a href="/tags/{{ $tag->slug }}">{{ $tag->name }}</a>
+                    <a class="text-secondary" href="/tags/{{ $tag->slug }}">{{ $tag->name }}</a>
                 @endforeach
             </small>
             <br>
-            <small>
-                Author : {{ $post->author->name }}
-            </small>
+            <div class="media my-3 align-items-center">
+                <img width="60" class="rounded-circle align-self-center mr-3" src="{{ $post->author->avatar() }}" class="ml-3" alt="...">
+                <div class="media-body">
+                    <div>
+                        Author : {{ $post->author->name }}
+                    </div>
+                    {{ '@' . $post->author->username }}
+                </div>
+            </div>
         </div>
-        <hr>
-        <p>{!! $post->body !!}</p>
+
+        <p>{!! nl2br($post->body) !!}</p>
         
         <!-- Button trigger modal -->
         @can ('update', $post)
-            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
-                Delete
-            </button>
+            <div class="d-flex">
+                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModal">
+                    Delete
+                </button>
+                
+                <div class="ml-2">
+                    <a href="/posts/{{ $post->slug }}/edit" class="btn btn-secondary btn-sm">Edit</a>
+                </div>
+            </div>
 
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
