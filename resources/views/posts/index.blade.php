@@ -19,29 +19,31 @@
             </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-8">
                 @forelse ($posts as $post)
                     <div class="card mb-4">
                         @if ($post->thumbnail)
                             <a href="{{ route('posts.show', $post->slug) }}">
-                                <img style="height: 350px; object-fit:cover; object-position:center;" src="{{ $post->takeImage() }}" class="card-img-top" alt="image-thumbnail">
+                                <img style="height: 400px; object-fit:cover; object-position:center;" src="{{ $post->takeImage() }}" class="card-img-top" alt="image-thumbnail">
                             </a>
                         @else
                             <a href="{{ route('posts.show', $post->slug) }}">
-                                <img style="height: 350px; object-fit:cover; object-position:center;" src="{{ asset('image-default/no-image.png') }}" class="card-img-top" alt="image-thumbnail">
+                                <img style="height: 400px; object-fit:cover; object-position:center;" src="{{ asset('image-default/no-image.png') }}" class="card-img-top" alt="image-thumbnail">
                             </a>
                         @endif
 
                         <div class="card-body">
                             <div>
-                                <a href="{{ route('categories.show', $post->category->slug) }}" class="text-secondary">
-                                    <small>{{ $post->category->name }} - </small>
-                                </a>
+                                <small>
+                                    <a href="{{ route('categories.show', $post->category->slug) }}" class="text-secondary">
+                                        {{ $post->category->name }} - 
+                                    </a>
 
-                                @foreach ($post->tags as $tag)
-                                    <a class="text-secondary" href="{{ route('tags.show', $tag->slug) }}">{{ $tag->name }}</a>
-                                @endforeach
+                                    @foreach ($post->tags as $tag)
+                                        <a class="text-secondary" href="{{ route('tags.show', $tag->slug) }}">{{$tag->name }}</a>
+                                    @endforeach
+                                </small>
                             </div>
 
                             <h5>
@@ -59,7 +61,7 @@
                                     <img width="40" class="rounded-circle align-self-center mr-3" src="{{ $post->author->avatar() }}" class="ml-3" alt="...">
                                     <div class="media-body">
                                         <div>
-                                            Author : {{ $post->author->name }}
+                                            <small>{{ $post->author->name }}</small>
                                         </div>
                                     </div>
                                 </div>

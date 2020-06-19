@@ -11,14 +11,15 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::latest()->paginate(6);
+        $posts = Post::with('author', 'tags', 'category')->latest()->paginate(6);
         // $posts = Post::simplePaginate(6); => paginate yg hanya menampilka prev & next
         return view('posts.index', compact('posts'));
     }
 
     public function show(Post $post)
     {
-        return view('posts.show', compact('post'));   
+        $posts = Post::with('author', 'tags', 'category')->where('category_id', $post->category_id)->latest()->limit(6)->get();
+        return view('posts.show', compact('post', 'posts'));   
     }
 
     public function create()
@@ -27,7 +28,7 @@ class PostController extends Controller
             'post' => new Post(),
             'categories' => Category::get(),
             'tags' => Tag::get(),
-            ]);    
+        ]);    
     }
 
     public function store(PostRequest $request)
