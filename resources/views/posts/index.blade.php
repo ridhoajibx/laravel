@@ -1,4 +1,4 @@
-@extends('layouts.app', ['title' => $category->name ?? $tag->name ?? 'All posts'])
+@extends('layouts.app', ['title' => 'All posts'])
 
 @section('content')
     <div class="container">
@@ -82,10 +82,6 @@
                 @endforelse
             </div>
         </div>
-        <div class="d-flex justify-content-center">
-            <div>
-                {{ $posts->links() }}
-            </div>
-        </div>
+        {{ $posts->links() }}
     </div>
 @endsection
