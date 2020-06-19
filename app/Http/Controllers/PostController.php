@@ -11,14 +11,14 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::with('author', 'tags', 'category')->latest()->paginate(6);
+        $posts = Post::latest()->paginate(6);
         // $posts = Post::simplePaginate(6); => paginate yg hanya menampilka prev & next
         return view('posts.index', compact('posts'));
     }
 
     public function show(Post $post)
     {
-        $posts = Post::with('author', 'tags', 'category')->where('category_id', $post->category_id)->latest()->limit(6)->get();
+        $posts = Post::where('category_id', $post->category_id)->latest()->limit(6)->get();
         return view('posts.show', compact('post', 'posts'));   
     }
 
